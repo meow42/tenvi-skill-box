@@ -1,0 +1,709 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!--<link href="index.css" rel="stylesheet" type="text/css" />-->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Tenvi Skill Box</title>
+</head>
+
+<body>
+  <div id="app" class="app" v-cloak>
+    <!-- 切换 -->
+    <div class="menuRace" v-if="true">
+      <span @click="changeRace('a')"><img src="img/m3.jpg" /></span>
+      <span @click="changeRace('s')"><img src="img/m2.jpg" /></span>
+      <span @click="changeRace('t')"><img src="img/m1.jpg" /></span>
+    </div>
+    <div class="add_box" v-show="true">
+      <!-- 顶部配置区域 -->
+      <div id="top2" v-show="true">
+        <div id="edit_frame">
+          <table width="100%">
+            <tr>
+              <th colspan="4">
+                <h2 style="text-align:center; line-height:30px; color:#886600; font-size:16px; font-weight:bold;">
+                  {{ raceName[race] }}技能加点模拟工具</h2>
+              </th>
+            </tr>
+            <tr>
+              <td class="rtd">
+                <div class="small">人物等级</div>
+              </td>
+              <td>
+                <select name="level" id="lselect" v-model="sim_pc_level">
+                  <option v-for="n in 120" :key="n" :value="n" v-show="n >= 4">{{ n }}</option>
+                </select>
+              </td>
+              <td colspan="2">
+                <div class="small">注意：如果把等级调至更低，你之前的加点将会被恢复为默认。</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="rtd">
+                觉醒选择
+              </td>
+              <td colspan="2">
+                <select name="wup" id="wselect" v-model="sim_pc_wakeup" @change="handelWakeChange">
+                  <option v-for="(item, index) in wakeups" :key="index" :value="item.id">
+                    {{ item.label + ' ' + item[race] }}</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="rtd">
+                <div class="small">当前可以分配点</div>
+              </td>
+              <td>
+                <span class="bolds" id="spoint">{{ getLeftPoint() + '/' +  sim_have_point}}</span>
+              </td>
+              <td>
+                <input type="button" id="reset_btn" value=" 技能点数还原 " @click="handelPointReset" style="font-size:12px;">
+              </td>
+              <td>
+                <input type="checkbox" id="use_popup" v-model="disp_popup"> 显示技能详细介绍。
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 左侧Tabs -->
+      <div id="middle1" v-show="true">
+        <div id="tabs">
+          <table>
+            <tr v-for="(item, index) in skillTab" v-if="index > 0">
+              <td>
+                <div class="tab" @click="handelTabClick(index)" @mouseover="item.mouseover = true;"
+                  @mouseout="item.mouseover = false;" v-show="item[race] !== '无'"
+                  :style="{backgroundImage: `url(${getTabBgUrl(index)})`}">
+                  <div class="tab1_cnt" v-if="index !== 4">{{ getTypePoint(index) }}</div>
+                </div>
+                <div class="tab" v-show="item[race] === '无'"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 中间技能区 -->
+      <div id="middle2">
+        <div v-show="!loaded">
+          数据载入中...
+        </div>
+        <div v-if="race === 'a'" v-show="loaded">
+          <div class="page" v-if="activeTab === 1">
+            <div>
+              <arrow need="s12" tar1="s13" type="lleft"></arrow>
+              <skill id="s13"></skill>
+            </div>
+            <div>
+              <skill id="s12">
+                <arrow need="s12" tar1="s14"></arrow>
+              </skill>
+              <skill id="s14">
+                <arrow need="s14" tar1="s15"></arrow>
+              </skill>
+              <skill id="s15">
+                <arrow need="s15" tar1="s16"></arrow>
+              </skill>
+              <skill id="s16">
+                <arrow need="s16" tar1="s17"></arrow>
+              </skill>
+              <skill id="s17"></skill>
+            </div>
+            <div>
+              <arrow need="s12" tar1="s18" type="right"></arrow>
+              <skill id="s18">
+                <arrow need="s18" tar1="s19"></arrow>
+              </skill>
+              <skill id="s19">
+                <arrow need="s19" tar1="s20"></arrow>
+              </skill>
+              <skill id="s20">
+                <arrow need="s20" tar1="s21"></arrow>
+              </skill>
+              <skill id="s21"></skill>
+            </div>
+            <div>
+              <skill id="s22">
+                <arrow need="s22" tar1="s23"></arrow>
+              </skill>
+              <skill id="s23">
+                <arrow need="s23" tar1="s24"></arrow>
+              </skill>
+              <skill id="s24">
+                <arrow need="s24" tar1="s25"></arrow>
+              </skill>
+              <skill id="s25"></skill>
+            </div>
+            <div>
+              <arrow need="s22" tar1="s26" type="right"></arrow>
+              <skill id="s26">
+                <arrow need="s26" tar1="s27"></arrow>
+              </skill>
+              <skill id="s27">
+                <arrow need="s27" tar1="s28"></arrow>
+              </skill>
+              <skill id="s28">
+                <arrow need="s28" tar1="s29"></arrow>
+              </skill>
+              <skill id="s29"></skill>
+            </div>
+          </div>
+          <div class="page" v-if="activeTab === 2">
+            <div>
+              <arrow need="s30" tar1="s31" type="lleft"></arrow>
+              <skill id="s31"></skill>
+            </div>
+            <div>
+              <skill id="s30">
+                <arrow need="s30" tar1="s32"></arrow>
+              </skill>
+              <skill id="s32">
+                <arrow need="s32" tar1="s33"></arrow>
+              </skill>
+              <skill id="s33">
+                <arrow need="s33" tar1="s34"></arrow>
+              </skill>
+              <skill id="s34">
+                <arrow need="s34" tar1="s35"></arrow>
+              </skill>
+              <skill id="s35"></skill>
+            </div>
+            <div>
+              <arrow need="s30" tar1="s36" type="right"></arrow>
+              <skill id="s36">
+                <arrow need="s36" tar1="s37"></arrow>
+              </skill>
+              <skill id="s37">
+                <arrow need="s37" tar1="s38"></arrow>
+              </skill>
+              <skill id="s38">
+                <arrow need="s38" tar1="s39"></arrow>
+              </skill>
+              <skill id="s39"></skill>
+            </div>
+            <div>
+              <arrow need="s40" tar1="s41" type="left"></arrow>
+              <skill id="s41">
+                <arrow need="s41" tar1="s42"></arrow>
+              </skill>
+              <skill id="s42"></skill>
+            </div>
+            <div>
+              <skill id="s40">
+                <arrow need="s40" tar1="s43"></arrow>
+              </skill>
+              <skill id="s43">
+                <arrow need="s43" tar1="s44"></arrow>
+              </skill>
+              <skill id="s44">
+                <arrow need="s44" tar1="s45"></arrow>
+              </skill>
+              <skill id="s45"></skill>
+            </div>
+            <div>
+              <arrow need="s40" tar1="s46" type="right"></arrow>
+              <skill id="s46">
+                <arrow need="s46" tar1="s47"></arrow>
+              </skill>
+              <skill id="s47">
+                <arrow need="s47" tar1="s48"></arrow>
+              </skill>
+              <skill id="s48"></skill>
+            </div>
+          </div>
+        </div>
+        <div v-if="race === 's'" v-show="loaded">
+          <div class="page" v-show="activeTab === 1">
+            <div>
+              <skill id="s14">
+                <arrow need="s14" tar1="s15"></arrow>
+              </skill>
+              <skill id="s15">
+                <arrow need="s15" tar1="s16"></arrow>
+              </skill>
+              <skill id="s16">
+                <arrow need="s16" tar1="s17"></arrow>
+              </skill>
+              <skill id="s17">
+                <arrow need="s17" tar1="s18"></arrow>
+              </skill>
+              <skill id="s18"></skill>
+            </div>
+            <div>
+              <arrow need="s14" tar1="s19" type="right"></arrow>
+              <skill id="s19">
+                <arrow need="s19" tar1="s20"></arrow>
+              </skill>
+              <skill id="s20">
+                <arrow need="s20" tar1="s21"></arrow>
+              </skill>
+              <skill id="s21">
+                <arrow need="s21" tar1="s22"></arrow>
+              </skill>
+              <skill id="s22"></skill>
+            </div>
+            <div>
+              <skill id="s23">
+                <arrow need="s23" tar1="s24"></arrow>
+              </skill>
+              <skill id="s24">
+                <arrow need="s24" tar1="s25"></arrow>
+              </skill>
+              <skill id="s25">
+                <arrow need="s25" tar1="s26"></arrow>
+              </skill>
+              <skill id="s26"></skill>
+            </div>
+            <div>
+              <arrow need="s23" tar1="s27" type="right"></arrow>
+              <skill id="s27">
+                <arrow need="s27" tar1="s28"></arrow>
+              </skill>
+              <skill id="s28"></skill>
+            </div>
+          </div>
+          <div class="page" v-show="activeTab === 2">
+            <div>
+              <skill id="s29">
+                <arrow need="s29" tar1="s30"></arrow>
+              </skill>
+              <skill id="s30">
+                <arrow need="s30" tar1="s31"></arrow>
+              </skill>
+              <skill id="s31">
+                <arrow need="s31" tar1="s32"></arrow>
+              </skill>
+              <skill id="s32">
+                <arrow need="s32" tar1="s33"></arrow>
+              </skill>
+              <skill id="s33"></skill>
+            </div>
+            <div>
+              <arrow need="s29" tar1="s34" type="right"></arrow>
+              <skill id="s34">
+                <arrow need="s34" tar1="s35"></arrow>
+              </skill>
+              <skill id="s35">
+                <arrow need="s35" tar1="s36"></arrow>
+              </skill>
+              <skill id="s36">
+                <arrow need="s36" tar1="s37"></arrow>
+              </skill>
+              <skill id="s37"></skill>
+            </div>
+            <div>
+              <skill id="s38">
+                <arrow need="s38" tar1="s39"></arrow>
+              </skill>
+              <skill id="s39">
+                <arrow need="s39" tar1="s40"></arrow>
+              </skill>
+              <skill id="s40"></skill>
+            </div>
+            <div>
+              <arrow need="s38" tar1="s41" type="right"></arrow>
+              <skill id="s41">
+                <arrow need="s41" tar1="s42"></arrow>
+              </skill>
+              <skill id="s42">
+                <arrow need="s42" tar1="s43"></arrow>
+              </skill>
+              <skill id="s43"></skill>
+            </div>
+          </div>
+          <div class="page" v-show="activeTab === 3">
+            <div>
+              <skill id="s44">
+                <arrow need="s44" tar1="s45"></arrow>
+              </skill>
+              <skill id="s45">
+                <arrow need="s45" tar1="s46"></arrow>
+              </skill>
+              <skill id="s46">
+                <arrow need="s46" tar1="s47"></arrow>
+              </skill>
+              <skill id="s47">
+                <arrow need="s47" tar1="s48"></arrow>
+              </skill>
+              <skill id="s48"></skill>
+            </div>
+            <div>
+              <arrow need="s44" tar1="s49" type="right"></arrow>
+              <skill id="s49">
+                <arrow need="s49" tar1="s50"></arrow>
+              </skill>
+              <skill id="s50">
+                <arrow need="s50" tar1="s51"></arrow>
+              </skill>
+              <skill id="s51">
+                <arrow need="s51" tar1="s52"></arrow>
+              </skill>
+              <skill id="s52"></skill>
+            </div>
+            <div>
+              <skill id="s53">
+                <arrow need="s53" tar1="s54"></arrow>
+              </skill>
+              <skill id="s54">
+                <arrow need="s54" tar1="s55"></arrow>
+              </skill>
+              <skill id="s55">
+                <arrow need="s55" tar1="s56"></arrow>
+              </skill>
+              <skill id="s56"></skill>
+            </div>
+            <div>
+              <arrow need="s53" tar1="s57" type="right"></arrow>
+              <skill id="s57">
+                <arrow need="s57" tar1="s58"></arrow>
+              </skill>
+              <skill id="s58">
+                <arrow need="s58" tar1="s59"></arrow>
+              </skill>
+              <skill id="s59"></skill>
+            </div>
+          </div>
+        </div>
+        <div v-if="race === 't'" v-show="loaded">
+          <div class="page" v-if="activeTab === 1">
+            <div name="c1">
+              <arrow need="s13" tar1="s14" type="lleft"></arrow>
+              <skill id="s14"></skill>
+            </div>
+            <div name="c2">
+              <skill id="s13">
+                <arrow need="s13" tar1="s15"></arrow>
+              </skill>
+              <skill id="s15">
+                <arrow need="s15" tar1="s16"></arrow>
+              </skill>
+              <skill id="s16">
+                <arrow need="s16" tar1="s17"></arrow>
+              </skill>
+              <skill id="s17">
+                <arrow need="s17" tar1="s18"></arrow>
+              </skill>
+              <skill id="s18"></skill>
+            </div>
+            <div name="c34">
+              <arrow need="s13" tar1="s19" tar2="23" type="wr"></arrow>
+              <div name="c3" style="float: left; margin-right: 4px;">
+                <skill id="s19">
+                  <arrow need="s19" tar1="s20"></arrow>
+                </skill>
+                <skill id="s20">
+                  <arrow need="s20" tar1="s21"></arrow>
+                </skill>
+                <skill id="s21">
+                  <arrow need="s21" tar1="s22"></arrow>
+                </skill>
+                <skill id="s22"></skill>
+              </div>
+              <div name="c4" style="float: left;">
+                <skill id="s23">
+                  <arrow need="s23" tar1="s24"></arrow>
+                </skill>
+                <skill id="s24">
+                  <arrow need="s24" tar1="s25"></arrow>
+                </skill>
+                <skill id="s25"></skill>
+              </div>
+            </div>
+            <div name="c5">
+              <skill id="s26">
+                <arrow need="s26" tar1="s27"></arrow>
+              </skill>
+              <skill id="s27">
+                <arrow need="s27" tar1="s28"></arrow>
+              </skill>
+              <skill id="s28">
+                <arrow need="s28" tar1="s29"></arrow>
+              </skill>
+              <skill id="s29"></skill>
+            </div>
+            <div name="c6">
+              <arrow need="s26" tar1="s30" type="right"></arrow>
+              <skill id="s30">
+                <arrow need="s30" tar1="s31"></arrow>
+              </skill>
+              <skill id="s31">
+                <arrow need="s31" tar1="s32"></arrow>
+              </skill>
+              <skill id="s32">
+                <arrow need="s32" tar1="s33"></arrow>
+              </skill>
+              <skill id="s33"></skill>
+            </div>
+          </div>
+          <div class="page" v-if="activeTab === 2">
+            <div name="c1">
+              <arrow need="s34" tar1="s35" type="left"></arrow>
+              <skill id="s35">
+                <arrow need="s35" tar1="s36"></arrow>
+              </skill>
+              <skill id="s36"></skill>
+            </div>
+            <div name="c2">
+              <skill id="s34">
+                <arrow need="s34" tar1="s37"></arrow>
+              </skill>
+              <skill id="s37">
+                <arrow need="s37" tar1="s38"></arrow>
+              </skill>
+              <skill id="s38">
+                <arrow need="s38" tar1="s39"></arrow>
+              </skill>
+              <skill id="s39">
+                <arrow need="s39" tar1="s40"></arrow>
+              </skill>
+              <skill id="s40"></skill>
+            </div>
+            <div name="c34">
+              <arrow need="s34" tar1="s41" tar2="s45" type="wr"></arrow>
+              <div name="c3" style="float: left; margin-right: 4px;">
+                <skill id="s41">
+                  <arrow need="s41" tar1="s42"></arrow>
+                </skill>
+                <skill id="s42">
+                  <arrow need="s42" tar1="s43"></arrow>
+                </skill>
+                <skill id="s43">
+                  <arrow need="s43" tar1="s44"></arrow>
+                </skill>
+                <skill id="s44"></skill>
+              </div>
+              <div name="c4" style="float: left;">
+                <skill id="s45">
+                  <arrow need="s45" tar1="s46"></arrow>
+                </skill>
+                <skill id="s46">
+                  <arrow need="s46" tar1="s47"></arrow>
+                </skill>
+                <skill id="s47"></skill>
+              </div>
+            </div>
+            <div name="c5">
+              <skill id="s48">
+                <arrow need="s48" tar1="s49"></arrow>
+              </skill>
+              <skill id="s49">
+                <arrow need="s49" tar1="s50"></arrow>
+              </skill>
+              <skill id="s50">
+                <arrow need="s50" tar1="s51"></arrow>
+              </skill>
+              <skill id="s51"></skill>
+            </div>
+            <div name="c6">
+              <arrow need="s48" tar1="s52" type="right"></arrow>
+              <skill id="s52">
+                <arrow need="s52" tar1="s53"></arrow>
+              </skill>
+              <skill id="s53"></skill>
+            </div>
+          </div>
+        </div>
+        <div class="wup_table" v-if="activeTab === 4">
+          <div v-for="(item, index) in wakeupList" :key="index">
+            <div class="wcell_on" v-if="item['label']">
+              <div class="wcell_on1">
+                <div class="lv">{{ index + 1 }}次觉醒</div>
+                <div class="name">{{ item[race] }}</div>
+              </div>
+              <div class="wcell_on2">
+                <div class="wcell_icon">
+                  <skill :id="item.skills[0]"></skill>
+                </div>
+                <div class="wcell_name">{{ item.skill1.name }}</div>
+                <div class="wcell_lv">[{{ item.skill1.lv }}/{{ item.skill1.max }}]</div>
+              </div>
+              <div class="wcell_on3">
+                <div class="wcell_icon">
+                  <skill :id="item.skills[1]"></skill>
+                </div>
+                <div class="wcell_name">{{ item.skill2.name }}</div>
+                <div class="wcell_lv">[{{ item.skill2.lv }}/{{ item.skill2.max }}]</div>
+              </div>
+            </div>
+            <div class="wcell_off" v-else>
+              <div class="lv">{{ index + 1 }}次觉醒</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧技能区 -->
+      <div id="middle3" v-show="activeTab !== 4">
+        <div class="common" v-show="!loaded">
+          数据载入中...
+        </div>
+        <div class="common" v-if="race === 'a'" v-show="loaded">
+          <div>
+            <skill id="s1"></skill>
+            <skill id="s2"></skill>
+            <skill id="s3"></skill>
+          </div>
+          <div>
+            <skill id="s4"></skill>
+            <skill id="s5"></skill>
+            <skill id="s6"></skill>
+            <skill id="s7"></skill>
+          </div>
+          <div>
+            <skill id="s8"></skill>
+            <skill id="s9">
+              <arrow need="s9" tar1="s10"></arrow>
+            </skill>
+            <skill id="s10">
+              <arrow need="s10" tar1="s11"></arrow>
+            </skill>
+            <skill id="s11"></skill>
+          </div>
+        </div>
+        <div class="common" v-if="race === 's'" v-show="loaded">
+          <div>
+            <skill id="s1"></skill>
+            <skill id="s2">
+              <arrow need="s2" tar1="s3"></arrow>
+            </skill>
+            <skill id="s3">
+              <arrow need="s3" tar1="s4"></arrow>
+            </skill>
+            <skill id="s4">
+              <arrow need="s4" tar1="s5"></arrow>
+            </skill>
+            <skill id="s5"></skill>
+          </div>
+          <div>
+            <skill id="s6"></skill>
+            <skill id="s7"></skill>
+            <skill id="s8"></skill>
+            <skill id="s9"></skill>
+            <skill id="s10"></skill>
+          </div>
+          <div>
+            <skill id="s11"></skill>
+            <skill id="s12">
+              <arrow need="s12" tar1="s13"></arrow>
+            </skill>
+            <skill id="s13"></skill>
+          </div>
+        </div>
+        <div class="common" v-if="race === 't'" v-show="loaded">
+          <div>
+            <skill id="s1"></skill>
+            <skill id="s2"></skill>
+            <skill id="s3"></skill>
+          </div>
+          <div>
+            <skill id="s4"></skill>
+            <skill id="s5"></skill>
+            <skill id="s6"></skill>
+            <skill id="s7"></skill>
+          </div>
+          <div>
+            <skill id="s8"></skill>
+            <skill id="s9"></skill>
+            <skill id="s10">
+              <arrow need="s10" tar1="s11"></arrow>
+            </skill>
+            <skill id="s11">
+              <arrow need="s11" tar1="s12"></arrow>
+            </skill>
+            <skill id="s12"></skill>
+          </div>
+        </div>
+      </div>
+      <!-- 详情弹出框 -->
+      <popup id="popup" :data="popupData" v-show="disp_popup && popupData" :offset="popupOffset"></popup>
+      <!-- 方案分享 -->
+      <div id="bottom1">
+        <div id="code_edit_frame">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <input id="getcode_btn" type="button" value=" 马上获得地址 " style="font-size:12px;" disabled>
+                  <span style="font-size:12px;">按下旁边的按钮即可马上获得你的加点页面</span><br />
+                </td>
+              </tr>
+              <tr>
+                <td><input type="text" size="80" maxlength="200" id="code_edit">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 操作说明 -->
+      <div id="bottom2">
+        <div id="guide">
+          <h2 style="text-align:center; line-height:30px; font-size:16px;">操作方法</h2>
+          　<font style="font-size:12px">在上方选择您要模拟的级别，每升一级会增加3点可用技能点。<br>　左边选择您要模拟加点的职业，为他们分配技能点。<br>
+            　选择职业的按钮上面的数字，是你给该职业当前已加点数的总和。</font><br><br>
+          <table id="manual">
+            <tr>
+              <td class="rtd">鼠标左键</td>
+              <td style="font-size:12px;">增加1技能点</td>
+            </tr>
+            <tr>
+              <td class="rtd">鼠标右键</td>
+              <td style="font-size:12px;">减少1技能点</td>
+            </tr>
+            <tr>
+              <td class="rtd">Shift+左键</td>
+              <td style="font-size:12px;">一次将该技能加满</td>
+            </tr>
+            <tr>
+              <td class="rtd">Shift+右键</td>
+              <td style="font-size:12px;">一次将该技能减完 </td>
+            </tr>
+            <tr>
+              <td class="rtd">Ctrl+左右键</td>
+              <td style="font-size:12px;">与直接点击左右键相反(主要为一个键的鼠标使用) </td>
+            </tr>
+            <tr>
+              <td class="rtd">技能点还原</td>
+              <td style="font-size:12px;">所有已加技能点数归为默认，可用技能点为最多</td>
+            </tr>
+            <tr>
+              <td class="rtd">显示技能详细介绍</td>
+              <td style="font-size:12px;">不选择时，鼠标放在技能图片上不显示其详细资料</td>
+            </tr>
+            <tr>
+              <td class="rttd" style="font-size:12px;">“生成你的加点地址”按钮</td>
+              <td style="font-size:12px;">
+                点击生成你的加点网址，复制该网址以后打开是本次加点的设置。<br>
+                可以将该网址发给你的朋友，让他们直接查看你的加点。<br>
+              </td>
+            </tr>
+          </table>
+        </div><!-- guide -->
+      </div>
+    </div>
+  </div>
+  <!-- 脚本 -->
+  <script type="text/javascript">
+    // 带时间戳加载样式表
+    let link = document.createElement('link');
+    link.href = 'index.css?t=' + Date.now();
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+    let js = [
+      { local: 'js/vue.min.js', cdn: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js' },
+      { local: 'js/httpVueLoader.min.js', cdn: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min.js' },
+      { local: 'js/axios.min.js', cdn: 'https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js' },
+    ];
+    // 根据环境选择js来源
+    //let mode = ['127.0.0.1', 'localhost'].includes(window.location.hostname) ? 'local' : 'cdn';
+    let mode = 'local';
+    js.map(item => { document.write('<script src="' + item[mode] + '"><\/script>'); });
+    // 带时间戳加载入口脚本
+    document.write('<script src="js/app.js?t=' + Date.now() + '"><\/script>');
+  </script>
+</body>
+
+</html>

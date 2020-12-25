@@ -1,0 +1,539 @@
+[v-cloak]{
+  display: none;
+}
+.app {
+  width: 100%;
+  height: 880px;
+}
+.menuRace {
+  width: 920px;
+  margin: 28px auto 0 auto;
+  text-align: center;
+}
+.menuRace > span {
+  display: inline-block;
+  margin: 0 8px;
+  cursor: pointer;
+}
+.add_box {
+  width: 920px;
+  height: 980px;
+  position: relative;
+  background: #fff;
+  margin: 0 auto;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+ }
+ 
+ body {
+  margin: 0px;
+  padding:0 8px 8px;
+ }
+ 
+ h1 {
+  font-size: 14pt;
+  color: #860;
+  font-weight: bold;
+ }
+ 
+ h2 {
+  font-size: 12pt;
+  color: #860;
+  font-weight: bold;
+ }
+ 
+ #needcss {
+  visibility: hidden;
+ }
+ 
+ #needscript {
+  vertical-align: top;
+  text-align: left;
+ }
+ 
+ #navi {
+  position: absolute;
+  top: 8px;
+  left:75px;
+  height: 20px;
+  width: 750px;
+  font-size: 10pt;
+  color: #860;
+ }
+ 
+ #top1 {
+  position: absolute;
+  top: 28px;
+  left:75px;
+  height: 60px;
+  width: 750px;
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  border-right: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ #top2 {
+  position: absolute;
+  top: 28px;
+  left: 75px;
+  height: 140px;
+  width: 750px;
+  _width: 766px;
+  *width: 766px;
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  border-right: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ #middle1, #middle2, #middle3, #middle4 {
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  top: 168px;
+ }
+ 
+ #middle1 {
+  position: absolute;
+  left:75px;
+  height: 400px;
+  width: 100px;
+  background: #feead3;
+  padding: 0px;
+ }
+ #middle2 {
+  position: absolute;
+  left: 175px;
+  height: 400px;
+  width: 650px; /*420*/
+  background: #feead3;
+  padding: 0px;
+  border-right: 3px double #4d2009;
+ }
+ #middle3 {
+  position: absolute;
+  left: 575px;
+   _left: 591px;
+  *left: 591px;
+  height: 400px;
+  width: 250px;
+  background: #feead3;
+  border-right: 3px double #4d2009;
+  padding: 0px;
+ }
+ #middle4 {
+  position: absolute;
+  left: 175px;
+  height: 400px;
+  width: 650px;
+  _width: 666px;
+  *width: 666px;
+  background: #feead3;
+  border-right: 3px double #4d2009;
+  padding: 0px;
+  visibility: hidden;
+ }
+ 
+ #bottom1 {
+  position: absolute;
+  top: 568px;
+  left: 75px;
+  height: 80px;
+  width: 750px;
+  _width: 766px;
+  *width: 766px; 
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  border-right: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+ }
+ 
+ #bottom2 {
+  position: absolute;
+  top: 645px;
+  left: 75px;
+  height: 270px;
+  width: 750px;
+   _width: 766px;
+  *width: 766px; 
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  border-right: 3px double #4d2009;
+  border-bottom: 3px double #4d2009;
+  background: #feead3;
+  padding:0 0 20px 0;
+ }
+ 
+ #bottom3 {
+  position: absolute;
+  top: 978px;
+  left: 8px;
+  height: 780px;
+  width: 750px;
+  border-top: 3px double #4d2009;
+  border-left: 3px double #4d2009;
+  border-right: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ #bottom4 {
+  position: absolute;
+  top: 1758px;
+  left: 8px;
+  height: 60px;
+  width: 750px;
+  border: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ #sign {
+  position: absolute;
+  top: 1818px;
+  left: 8px;
+  height: 50px;
+  width: 880px;
+  padding: 8px;
+  vertical-align: top;
+  text-align: right;
+  font-size: 12pt;
+  font-weight: bold;
+ }
+ 
+ #right1 {
+  position: absolute;
+  top: 28px;
+  left: 755px;
+  height: 1790px;
+  width: 128px;
+  border: 3px double #4d2009;
+  background: #feead3;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ .wframe{
+  border: 3px double #4d2009;
+  text-align: left;
+  color: #333;
+  background: #feead3;
+  padding: 0px;
+ }
+ 
+ .clear {
+  clear: both;
+ }
+ 
+ #edit_frame{
+  vertical-align: top;
+  text-align: left;
+  color: #333;
+  padding: 8px;
+ }
+ 
+#tabs {
+  vertical-align: top;
+  text-align: right;
+}
+.tab {
+  vertical-align: top;
+  text-align: left;
+  margin: 0;
+  width: 92px;
+  height: 65px;
+  background-repeat: no-repeat;
+  background-position: top right;
+  /* border: 1px solid #00f;*/
+  cursor: pointer;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+ .tab1_cnt,#tab1_cnt,#tab2_cnt,#tab3_cnt {
+  vertical-align: top;
+  text-align: right;
+  position: relative;
+  width: 28px;
+  left: 58px;
+  top: 41px;
+  color: #fff;
+ /* border: 1px solid #f00;*/
+ }
+ 
+ td {
+  vertical-align: top;
+  text-align: left;
+ }
+ 
+ .page {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 8px;
+ }
+ .page > div {
+   float: left;
+   width: fit-content;
+   margin-right: 2px;
+ }
+.common {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 8px;
+ }
+.common > div {
+  float: left;
+  width: fit-content;
+  margin-right: 2px;
+}
+ 
+ #middle2 td {
+  vertical-align: top;
+  text-align: center;
+ }
+ 
+ #middle3 td {
+  vertical-align: top;
+  text-align: center;
+ }
+ 
+ .wcell {
+  margin: 0px;
+  padding: 0px;
+  height: 51px;
+  width: 590px;
+ }
+
+.wup_table {
+  width: 100%;
+  padding: 8px;
+}
+.wcell_off {
+  float: left;
+  width: 100%;
+  height: 51px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-image: url("img/w_off.gif");  
+}
+.wcell_off .lv {
+  position: relative;
+  left: 28px;
+  top: 18px;
+  color: #bbb;
+  font-size: 10pt;
+}
+.wcell_on1, .wcell_on2, .wcell_on3 {
+  float: left;
+}
+.wcell_on1 {
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-image: url("img/w_on1.gif");
+  height: 51px;
+  width: 171px;
+}
+.wcell_on1 .lv {
+  padding: 8px 0 0 28px;
+  color: #fff;
+  font-size: 10pt;
+}
+.wcell_on1 .name {
+  padding: 0 0 0 28px;
+  color: #af8;
+  font-size: 10pt;
+}
+.wcell_on2 {
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-image: url("img/w_on2.gif");
+  height: 51px;
+  width: 192px;
+}
+.wcell_on3 {
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-image: url("img/w_on3.gif");
+  height: 51px;
+  width: 207px;
+}
+.wcell_icon {
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin: 9px;
+}
+.wcell_name {
+  float: left;
+  width: 136px;
+  height: 14px;
+  margin: 10px 0 0 0;
+  color: #fff;
+  font-size: 10pt;
+}
+.wcell_lv {
+  float: right;
+  width: 45px;
+  height: 20px;
+  margin-left: 84px;
+  text-align: right;
+  color: #fff;
+  font-size: 10pt;
+}
+ 
+ #won1,#woff1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+ }
+ 
+ #won2,#woff2 {
+  position: absolute;
+  top: 53px;
+  left: 0px;
+ }
+ 
+ #won3,#woff3 {
+  position: absolute;
+  top: 106px;
+  left: 0px;
+ }
+ 
+ #won4,#woff4 {
+  position: absolute;
+  top: 159px;
+  left: 0px;
+ }
+ 
+ #won5,#woff5 {
+  position: absolute;
+  top: 212px;
+  left: 0px;
+ }
+ 
+ #won6,#woff6 {
+  position: absolute;
+  top: 265px;
+  left: 0px;
+ }
+ 
+ #code_edit_frame {
+  text-align: left;
+  color: #000;
+  padding: 8px;
+ }
+ 
+ #lselect {
+  z-index: 1;
+ }
+ 
+ .wframe td {
+  vertical-align: top;
+  text-align: center;
+ }
+ 
+ #edit_frame td{
+  padding: 4px;
+  font-size: 10pt;
+ }
+ 
+ .rtd {
+  vertical-align: middle;
+  text-align: right;
+ }
+ 
+ .rttd {
+  vertical-align: top;
+  text-align: right;
+ }
+ 
+ .bolds {
+  font-size: 12pt;
+  font-weight: bold;
+ }
+ 
+ .small {
+  font-size: 9pt;
+ }
+ 
+ #counter {
+  vertical-align: top;
+  text-align: right;
+  color: #860;
+  font-size: 12pt;
+  font-weight: bold;
+ }
+ 
+ #guide {
+  padding: 8px;
+  font-size: 9pt;
+ }
+ 
+ #guide th{
+  vertical-align: middle;
+  text-align: left;
+ }
+ 
+ #guide th, td{
+  font-size: 9pt;
+ }
+ 
+ .inner {
+  padding: 8px;
+  font-size: 10pt;
+  vertical-align: top;
+  text-align: left;
+ }
+ 
+ #errmsg {
+  color: #f00;
+  /*visibility: hidden;*/
+ }
+ 
+ .gspace {
+  padding: 8px;
+  vertical-align: middle;
+  text-align: center;
+ }
+ 
+ .vsmall {
+  color: #888;
+  font-size: 6pt;
+ }
+ 
+ #manual {
+  border-collapse: collapse;
+  border: 1px solid #000;
+  margin:0 auto;
+ }
+ 
+ #manual .rtd,.rttd {
+  border-right: 1px dashed #000;
+ }
+ 
+ #manual td {
+  padding: 1px 8px;
+  border-bottom: 1px solid #000;
+ }
+ 
