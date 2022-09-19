@@ -1,0 +1,31 @@
+
+name: Deloy to Kodo
+
+on: 
+  push:
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    # 拉取代码 https://github.com/actions/checkout
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    # 上传七牛云 https://github.com/saltbo/uptoc
+    - name: Qiniu Upload
+      uses: saltbo/uptoc@master
+      with:
+        driver: qiniu
+        region: cn-south-1 # cn-north-1, cn-south-1
+        bucket: tenvi
+        exclude: .cache,.git,.github,.gitignore
+        dist: .
+        saveroot: skill-box
+      env:
+        UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
+        UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
