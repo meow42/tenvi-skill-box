@@ -159,9 +159,9 @@ var app = new Vue({
   computed: {
   },
   components: {
-    'arrow': httpVueLoader('js/SkillArrow.vue?t=' + Date.now()),
-    'skill': httpVueLoader('js/SkillBox.vue?t=' + Date.now()),
-    'popup': httpVueLoader('js/SkillPopup.vue?t=' + Date.now()),
+    'arrow': httpVueLoader('js/SkillArrow.vue'),
+    'skill': httpVueLoader('js/SkillBox.vue'),
+    'popup': httpVueLoader('js/SkillPopup.vue'),
   },
   created() { },
   mounted() {
@@ -211,7 +211,7 @@ var app = new Vue({
       }
       let that = this;
       that.loaded = false;
-      axios.get(url + '?t=' + Date.now())
+      axios.get(url)
         .then((res) => {
           //console.log('loadData()', url, res.data);
           that.skills = that.parseData(res.data);
