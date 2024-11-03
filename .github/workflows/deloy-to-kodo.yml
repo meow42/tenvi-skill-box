@@ -14,7 +14,7 @@ jobs:
     steps:
     # 拉取代码 https://github.com/actions/checkout
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       
     # 上传七牛云 https://github.com/saltbo/uptoc
     - name: Qiniu Upload
